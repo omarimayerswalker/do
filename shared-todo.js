@@ -1,19 +1,29 @@
+Tasks = new Mongo.Collection("tasks");
+
 if (Meteor.isClient) {
-  // counter starts at 0
-  Session.setDefault('counter', 0);
+    Template.body.helpers({
+        tasks: function(){
+            return Tasks.find({});
+        }
+    });
+    Template.body.events({
+        "submit .new-task": function(event){
+            //prevent default browser submit
+            event.preventDefault();
 
-  Template.hello.helpers({
-    counter: function () {
-      return Session.get('counter');
-    }
-  });
+            //get valute from form element
+            var text = event.target.text.value;
 
-  Template.hello.events({
-    'click button': function () {
-      // increment the counter when button is clicked
-      Session.set('counter', Session.get('counter') + 1);
-    }
-  });
+            // insert task
+            Tasks.insert({
+                text: text,
+                createdAt: new Date() 
+            });
+
+            // clear form
+            event.target.text.value = "";
+        }
+    });
 }
 
 if (Meteor.isServer) {
