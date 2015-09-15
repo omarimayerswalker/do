@@ -13,15 +13,18 @@ if (Meteor.isClient) {
 
             //get valute from form element
             var text = event.target.text.value;
+            var points = event.target.number.value;
 
             // insert task
             Tasks.insert({
                 text: text,
-                createdAt: new Date() 
+                points: points,
+                createdAt: new Date()
             });
 
             // clear form
             event.target.text.value = "";
+            event.target.number.value = "";
         }
     });
 }
