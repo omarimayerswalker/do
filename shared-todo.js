@@ -3,8 +3,18 @@ Tasks = new Mongo.Collection("tasks");
 if (Meteor.isClient) {
     Template.body.helpers({
         tasks: function(){
-            return Tasks.find({}, {sort: {createdAt: -1}});
+            // return Tasks.find({}, {sort: {createdAt: -1}});
+            if (Session.get("hideCompleted")){
+                // if hide completed, filter tasks
+                return Tasks.find({checked: {$ne: true}}, {sort: {createdAt: -1}});
+            } else {
+                return Tasks.find({}, {sort: {createdAt: -1}});
+            }
+        },
+        hideCompleted: function(){
+            return Session.get("hideCompleted");
         }
+
     });
     Template.body.events({
         "submit .new-task": function(event){
@@ -25,6 +35,9 @@ if (Meteor.isClient) {
             // clear form
             event.target.text.value = "";
             event.target.number.value = "";
+        },
+        "change .hide-completed input": function(event){
+            Session.set("hideCompleted", event.target.checked);
         }
     });
 
