@@ -15,6 +15,10 @@ if (Meteor.isClient) {
         },
         incompleteCount: function(){
             return Tasks.find({checked: {$ne: true}}).count();
+        },
+        usernames: function(){
+            var allusers = Meteor.users.find();
+            return allusers;
         }
     });
     Template.body.events({

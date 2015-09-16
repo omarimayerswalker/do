@@ -14,6 +14,12 @@
 
       {{> loginButtons}}
 
+      <ul>
+        {{#each usernames}}
+          {{ username}}
+        {{/each}}
+      </ul>
+
       {{#if currentUser}}
       <form class="new-task">
         <input type="text" name="text" placeholder="Add a new task!">
@@ -32,12 +38,19 @@
 </body>
 
 <template name="task">
+
+  {{#if currentUser}}
   <li class="{{#if checked}}checked{{/if}}">
     <button class="delete">&times;</button>
 
     <input type="checkbox" checked="{{checked}}" class="toggle-checked">
 
-    <span class="text"><strong>{{username}}</strong> - {{text}}</span>
+    <span class="text"><strong>{{username}}</strong>: {{text}}</span>
     <span class="text">{{points}}</span>
   </li>
+  {{/if}}
+</template>
+
+<template name="username">
+  <span>{{username}}</span><span>{{points}}</span>
 </template>
