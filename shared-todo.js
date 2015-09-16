@@ -3,7 +3,6 @@ Tasks = new Mongo.Collection("tasks");
 if (Meteor.isClient) {
     Template.body.helpers({
         tasks: function(){
-            // return Tasks.find({}, {sort: {createdAt: -1}});
             if (Session.get("hideCompleted")){
                 // if hide completed, filter tasks
                 return Tasks.find({checked: {$ne: true}}, {sort: {createdAt: -1}});
@@ -31,7 +30,9 @@ if (Meteor.isClient) {
             Tasks.insert({
                 text: text,
                 points: points,
-                createdAt: new Date()
+                createdAt: new Date(),
+                owner: Meteor.userId(),
+                username: Meteor.user().username
             });
 
             // clear form
@@ -52,6 +53,10 @@ if (Meteor.isClient) {
         "click .delete": function(){
             Tasks.remove(this._id);
         }
+    });
+
+    Accounts.ui.config({
+        passwordSignupFields: "USERNAME_ONLY"
     });
 }
 

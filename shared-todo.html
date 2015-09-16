@@ -12,11 +12,15 @@
         Hide Completed Tasks
       </label>
 
+      {{> loginButtons}}
+
+      {{#if currentUser}}
       <form class="new-task">
         <input type="text" name="text" placeholder="Add a new task!">
         <input type="text" name="number" placeholder="Assign points!">
         <input type="submit" value="Add task">
       </form>
+      {{/if}}
     </header>
 
     <ul>
@@ -33,8 +37,7 @@
 
     <input type="checkbox" checked="{{checked}}" class="toggle-checked">
 
-    <span class="text">{{text}}</span>
+    <span class="text"><strong>{{username}}</strong> - {{text}}</span>
     <span class="text">{{points}}</span>
-
   </li>
 </template>
