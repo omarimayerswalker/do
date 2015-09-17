@@ -1,4 +1,5 @@
 Tasks = new Mongo.Collection("tasks");
+// Members = new Mongo.Collection("members");
 
 if (Meteor.isClient) {
     Template.body.helpers({
@@ -28,15 +29,20 @@ if (Meteor.isClient) {
 
             //get valute from form element
             var text = event.target.text.value;
-            var points = event.target.number.value;
+            var points = parseInt(event.target.number.value);
 
             // insert task
             Tasks.insert({
                 text: text,
                 points: points,
+                // totalPoints: this.points + points,
                 createdAt: new Date(),
                 owner: Meteor.userId(),
                 username: Meteor.user().username
+            }),
+
+            Meteor.user.insert({
+                totalPoints: this.totalPoints + points
             });
 
             // clear form
