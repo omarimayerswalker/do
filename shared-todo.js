@@ -1,12 +1,6 @@
 Tasks = new Mongo.Collection("tasks");
 Totals = new Mongo.Collection("totals");
 
-// Totals.insert ({
-    // owner: Meteor.userId(),
-    // username: Meteor.user().username,
-    // totalPoints: 0
-// });
-
 if (Meteor.isClient) {
 
     Template.body.helpers({
@@ -44,8 +38,6 @@ if (Meteor.isClient) {
                 }
             }
             return userTotal;
-
-            // console.log(userTotal);
         }
     });
 
