@@ -1,7 +1,14 @@
 Tasks = new Mongo.Collection("tasks");
-// Members = new Mongo.Collection("members");
+Totals = new Mongo.Collection("totals");
+
+// Totals.insert ({
+    // owner: Meteor.userId(),
+    // username: Meteor.user().username,
+    // totalPoints: 0
+// });
 
 if (Meteor.isClient) {
+
     Template.body.helpers({
         tasks: function(){
             if (Session.get("hideCompleted")){
@@ -20,8 +27,28 @@ if (Meteor.isClient) {
         usernames: function(){
             var allusers = Meteor.users.find();
             return allusers;
+        },
+        totals: function(){
+            var distinctEntries = _.uniq(Totals.find({}, {
+                sort: {totalPoints: 1}, fields: {totalPoints: true}
+            }).fetch().map(function(x) {
+                return x.totalPoints;
+            }), true);
+
+            var userTotal = 0;
+
+            for(var i = 0; i < distinctEntries.length; i++){
+
+                if (Number.isInteger(distinctEntries[i])){
+                    userTotal = userTotal + distinctEntries[i];
+                }
+            }
+            return userTotal;
+
+            // console.log(userTotal);
         }
     });
+
     Template.body.events({
         "submit .new-task": function(event){
             //prevent default browser submit
@@ -35,14 +62,16 @@ if (Meteor.isClient) {
             Tasks.insert({
                 text: text,
                 points: points,
-                // totalPoints: this.points + points,
                 createdAt: new Date(),
                 owner: Meteor.userId(),
                 username: Meteor.user().username
             }),
 
-            Meteor.user.insert({
-                totalPoints: this.totalPoints + points
+            // update total points
+            Totals.insert({
+                owner: Meteor.userId(),
+                username: Meteor.user().username,
+                totalPoints: points
             });
 
             // clear form
@@ -71,7 +100,4 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
-  Meteor.startup(function () {
-    // code to run on server at startup
-  });
 }

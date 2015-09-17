@@ -14,12 +14,14 @@
 
       {{> loginButtons}}
 
+      <!-- list of all users -->
       <ul>
         {{#each usernames}}
           {{ username}}
         {{/each}}
       </ul>
 
+      <!-- task form -->
       {{#if currentUser}}
       <form class="new-task">
         <input type="text" name="text" placeholder="Add a new task!">
@@ -29,11 +31,15 @@
       {{/if}}
     </header>
 
+      {{ totals}}
+
+    <!-- task list -->
     <ul>
       {{#each tasks}}
         {{> task}}
       {{/each}}
     </ul>
+
   </div>
 </body>
 
@@ -51,6 +57,10 @@
   {{/if}}
 </template>
 
-<template name="username">
-  <span>{{username}}</span><span>{{points}}</span>
+<template name="total">
+
+  <li>
+    <span class="text"><strong>{{username}}</strong></span>
+    <span class="text">{{totalPoints}}</span>
+  </li>
 </template>
