@@ -24,7 +24,11 @@
       {{/if}}
     </header>
 
+    {{#if currentUser}}
     {{> total}}
+    {{/if}}
+
+    {{> otherTotals}}
 
 
     <!-- task list -->
@@ -54,7 +58,14 @@
 <template name="total">
 
   <li>
-    <span class="text"><strong>{{username}}</strong></span>
+    <span class="text"><strong>Your points: </strong></span>
     <span class="text">{{totalPoints}}</span>
+  </li>
+</template>
+
+<template name="otherTotals">
+  <li>
+    <span class="text"><strong>Other users:</strong></span>
+    <span class="text">{{finalTotal}}</span>
   </li>
 </template>
