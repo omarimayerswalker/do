@@ -21,26 +21,26 @@ if (Meteor.isClient) {
         usernames: function(){
             var allusers = Meteor.users.find();
             return allusers;
-        },
-
-        totalsAll: function(){
-            var distinctEntries = _.uniq(Totals.find({}, {
-                sort: {totalPoints: 1}, fields: {totalPoints: true}
-            }).fetch().map(function(x) {
-                return x.totalPoints;
-            }), true);
-
-            var userTotal = 0;
-
-            for(var i = 0; i < distinctEntries.length; i++){
-
-                if (Number.isInteger(distinctEntries[i])){
-                    userTotal = userTotal + distinctEntries[i];
-                }
-            }
-            // console.log(userTotal);
-            return userTotal;
         }
+
+        // totalsAll: function(){
+            // var distinctEntries = _.uniq(Totals.find({}, {
+                // sort: {totalPoints: 1}, fields: {totalPoints: true}
+            // }).fetch().map(function(x) {
+                // return x.totalPoints;
+            // }), true);
+
+            // var userTotal = 0;
+
+            // for(var i = 0; i < distinctEntries.length; i++){
+
+    //             if (Number.isInteger(distinctEntries[i])){
+    //                 userTotal = userTotal + distinctEntries[i];
+    //             }
+    //         }
+    //         // console.log(userTotal);
+    //         return userTotal;
+    //     }
     });
 
     Template.body.events({
@@ -66,14 +66,7 @@ if (Meteor.isClient) {
                 owner: Meteor.userId(),
                 username: Meteor.user().username,
                 totalPoints: points
-            });
-
-            Totals.update(
-                { _id: Meteor._id() },
-                {
-                    $inc: { totalPoints: points}
-                }
-            );
+            }),
 
             // clear form
             event.target.text.value = "";
@@ -81,6 +74,19 @@ if (Meteor.isClient) {
         },
         "change .hide-completed input": function(event){
             Session.set("hideCompleted", event.target.checked);
+        }
+    });
+
+    Template.total.helpers({
+        totalPoints: function(){
+            var totalPoints = 0;
+            Tasks.find({}).forEach(function(task){
+                if(task.owner != Meteor.userId()) return;
+                totalPoints += task.points;
+            });
+            return totalPoints;
+
+            console.log(totalPoints);
         }
     });
 
