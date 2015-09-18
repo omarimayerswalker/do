@@ -22,7 +22,8 @@ if (Meteor.isClient) {
             var allusers = Meteor.users.find();
             return allusers;
         },
-        totals: function(){
+
+        totalsAll: function(){
             var distinctEntries = _.uniq(Totals.find({}, {
                 sort: {totalPoints: 1}, fields: {totalPoints: true}
             }).fetch().map(function(x) {
@@ -37,6 +38,7 @@ if (Meteor.isClient) {
                     userTotal = userTotal + distinctEntries[i];
                 }
             }
+            // console.log(userTotal);
             return userTotal;
         }
     });
@@ -66,6 +68,13 @@ if (Meteor.isClient) {
                 totalPoints: points
             });
 
+            Totals.update(
+                { _id: Meteor._id() },
+                {
+                    $inc: { totalPoints: points}
+                }
+            );
+
             // clear form
             event.target.text.value = "";
             event.target.number.value = "";
@@ -91,5 +100,5 @@ if (Meteor.isClient) {
     });
 }
 
-if (Meteor.isServer) {
-}
+// if (Meteor.isServer) {
+// }

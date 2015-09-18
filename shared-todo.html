@@ -5,7 +5,7 @@
 <body>
   <div class="container">
     <header>
-      <h1>Shared Todo</h1>
+      <h1>Do</h1>
 
       <label class="hide-completed">
         <input type="checkbox" checked="{{hideCompleted}}">
@@ -14,24 +14,17 @@
 
       {{> loginButtons}}
 
-      <!-- list of all users -->
-      <ul>
-        {{#each usernames}}
-          {{ username}}
-        {{/each}}
-      </ul>
-
       <!-- task form -->
       {{#if currentUser}}
       <form class="new-task">
-        <input type="text" name="text" placeholder="Add a new task!">
+        <input type="text" name="text" placeholder="Something to do!">
         <input type="text" name="number" placeholder="Assign points!">
-        <input type="submit" value="Add task">
+        <input type="submit" value="Do it!">
       </form>
       {{/if}}
     </header>
 
-      {{ totals}}
+    <!--       {{ totals}} -->
 
     <!-- task list -->
     <ul>
