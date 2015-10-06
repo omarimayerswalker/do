@@ -9,7 +9,7 @@
 
       <label class="hide-completed">
         <input type="checkbox" checked="{{hideCompleted}}">
-        Hide Completed Tasks
+        Undone Only
       </label>
 
       {{> loginButtons}}
@@ -58,14 +58,14 @@
 
 <template name="total">
   <li>
-    <span class="text"><strong>You: </strong></span>
+    <span class="text"><strong>You</strong></span>
     <span class="text">{{totalPoints}}</span>
   </li>
 </template>
 
 <template name="other">
   <li>
-    <span class="text"><strong>Other:</strong></span>
+    <span class="text"><strong>Other</strong></span>
     <span class="text">{{otherPoints}}</span>
   </li>
 </template>
