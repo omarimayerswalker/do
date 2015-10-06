@@ -21,9 +21,6 @@ if (Meteor.isClient) {
         usernames: function(){
             var allusers = Meteor.users.find();
             return allusers;
-        },
-        finalTotal: function(){
-            return Totals.find();
         }
     });
 
@@ -63,22 +60,29 @@ if (Meteor.isClient) {
     });
 
     Template.total.helpers({
+
         totalPoints: function(){
             var totalPoints = 0;
             Tasks.find({}).forEach(function(task){
                 if(task.owner != Meteor.userId()) return;
                 totalPoints += task.points;
             });
+            console.log(totalPoints);
             return totalPoints;
-        },
-
-        finalTotal: function(totalPoints){
-           Totals.update(this._id, {
-                finalPoints: totalPoints
-            });
-            return finalPoints;
         }
+    });
 
+    Template.other.helpers({
+
+        otherPoints: function(){
+            var otherPoints = 0;
+            Tasks.find({}).forEach(function(task){
+                if(task.owner == Meteor.userId()) return;
+                otherPoints += task.points;
+            });
+            console.log(otherPoints);
+            return otherPoints;
+        }
     });
 
     Template.task.events({
@@ -96,6 +100,3 @@ if (Meteor.isClient) {
         passwordSignupFields: "USERNAME_ONLY"
     });
 }
-
-// if (Meteor.isServer) {
-// }
